@@ -16,7 +16,17 @@ public class HomePage extends BasePage {
     WebElement bookStore;
 
     public SidePanel getBookStore() {
-        click(bookStore);
-        return new SidePanel(driver,wait);
+        //click(bookStore);
+        clickWithJS(bookStore, 0, 600);
+        return new SidePanel(driver, wait);
+    }
+
+    //* AlertsFrameWindows
+    @FindBy(css = ".top-card:nth-child(3)")
+    WebElement alertsFrameWindows;
+
+    public BasePage getAlertFrameWindows() {
+        click(alertsFrameWindows);
+        return new SidePanel(driver, wait);
     }
 }

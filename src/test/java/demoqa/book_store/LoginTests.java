@@ -11,8 +11,8 @@ public class LoginTests extends TestBase {
 
     @BeforeMethod
     public void precondition() {
-        new HomePage(app.driver,app.wait).getBookStore();
-        new SidePanel(app.driver,app.wait).selectLogin();
+        new HomePage(app.driver,app.wait).getBookStore().hideAds();
+        new SidePanel(app.driver,app.wait).selectLogin().hideAds();
     }
 
     @Test

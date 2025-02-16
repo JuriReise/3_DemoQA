@@ -1,5 +1,6 @@
 package demoqa.core;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,30 +16,31 @@ public class ApplicationManager {
     public WebDriver driver;
     public WebDriverWait wait;
 
+    /** Switch-case — это конструкция в программировании, которая позволяет выполнять различные
+     * блоки кода в зависимости от значения переменной.
+     * Она заменяет длинные цепочки условий if-else if, делая код более читаемым и удобным для понимания.
+     */
     public void init() {
-        String browser = System.getProperty("browser","chrome");
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("chrome_headless")) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("headless");
-            options.addArguments("window-size=1920x1080");
-            driver = new ChromeDriver(options);
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = new FirefoxDriver();
-        } else if (browser.equalsIgnoreCase("edge")) {
-            driver = new EdgeDriver();
-        } else if (browser.equalsIgnoreCase("safari")) {
-            driver = new SafariDriver();
-        } else {
-            //driver = new ChromeDriver();
-            throw new IllegalArgumentException("❌ Некорректный браузер: " + browser + ". Доступные варианты: chrome, firefox, edge, safari.");
+        String browser = System.getProperty("browser", "chrome");
+        // Проверяет значение переменной browser и в зависимости от результата инициализирует нужный драйвер
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            default: // Это резервный сценарий на случай, если значение browser не совпадает ни с одним из указанных случаев
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
         }
-        driver.get("https://demoqa.com/");
+        //driver = new ChromeDriver();
         driver.manage().window().setPosition(new Point(2500, 0));
-        //driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // неявное
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.get("https://demoqa.com/");
     }
 
     public void stop() {
