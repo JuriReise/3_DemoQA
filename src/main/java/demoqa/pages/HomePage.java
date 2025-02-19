@@ -16,8 +16,9 @@ public class HomePage extends BasePage {
     WebElement bookStore;
 
     public SidePanel getBookStore() {
-        //click(bookStore);
-        clickWithJS(bookStore, 0, 600);
+        scrollTo(600);
+        click(bookStore);
+        //clickWithJS(bookStore, 0, 600);
         return new SidePanel(driver, wait);
     }
 
@@ -29,4 +30,14 @@ public class HomePage extends BasePage {
         click(alertsFrameWindows);
         return new SidePanel(driver, wait);
     }
+
+    //* Widgets
+    @FindBy(css = ".top-card:nth-child(4)")
+    WebElement widgets;
+
+    public BasePage getWidgets() {
+        click(widgets);
+        return new SidePanel(driver, wait);
+    }
+
 }

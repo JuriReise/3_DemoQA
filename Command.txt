@@ -1,0 +1,12 @@
+ Очищаем проект перед тестами: mvn clean
+
+ Запускаем тесты: mvn test
+
+ Генерируем Allure-отчёт: mvn allure:report
+
+ Открываем отчёт в браузере: mvn allure:serve
+
+ Запуск с обычным браузером (GUI): mvn clean test
+
+ Запуск в headless-режиме (без открытия окна браузера): mvn clean test -Dheadless=true
+

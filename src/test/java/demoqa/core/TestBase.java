@@ -24,7 +24,7 @@ public class TestBase {
         if (result.isSuccess()) {
             logger.info("Test is PASSED: [" + method.getName() + "]");
         } else {
-            logger.error("Test is FAILED: [" + method.getName() + "]");
+            logger.error("Test is FAILED: [" + method.getName() + "], Screenshot: [" + app.getBasePage().takeScreenshot() + "]");
         }
         app.stop();
     }

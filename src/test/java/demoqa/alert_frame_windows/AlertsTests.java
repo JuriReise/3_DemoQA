@@ -18,4 +18,21 @@ public class AlertsTests extends TestBase {
     public void waitAlertTest() {
         new AlertsPage(app.driver, app.wait).clickOnAlertWithTimer();
     }
+
+    @Test
+    public void alertWithSelectedTextPositiveTest(){
+        new AlertsPage(app.driver, app.wait)
+                .clickOnConfirmButton()
+                .confirmResult("Cancel")
+                .verifyResult("Cancel")
+                ;
+    }
+
+    @Test
+    public void sendMessageToAlertPositiveTest(){
+        new AlertsPage(app.driver, app.wait)
+                .sendMessageToAlert("123")
+                .verifyMessage("123")
+                ;
+    }
 }

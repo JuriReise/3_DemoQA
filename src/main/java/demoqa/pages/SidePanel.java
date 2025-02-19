@@ -29,4 +29,50 @@ public class SidePanel extends BasePage {
         clickWithJS(alerts, 0, 500);
         return new AlertsPage(driver, wait);
     }
+
+    //* Frames
+    @FindBy(xpath = "//span[.='Frames']")
+    WebElement frames;
+
+    public AlertsPage selectFrames() {
+        clickWithJS(frames, 0, 500);
+        return new AlertsPage(driver, wait);
+    }
+
+    //* Browser Windows
+    @FindBy(xpath = "//span[.='Browser Windows']")
+    WebElement browserWindows;
+
+    public AlertsPage selectBrowserWindows() {
+        clickWithJS(browserWindows, 0, 500);
+        return new AlertsPage(driver, wait);
+    }
+
+
+    //* Select Menu
+    @FindBy(xpath = "//span[.='Select Menu']")
+    WebElement selectMenu;
+
+    public WidgetsPage selectSelectMenu() {
+        clickWithJS(selectMenu, 0, 800);
+        return new WidgetsPage(driver, wait);
+    }
+
+    //* Slider Menu
+    @FindBy(xpath = "//span[.='Slider']")
+    WebElement sliderMenu;
+
+    public SliderPage selectSliderMenu() {
+        clickWithJS(sliderMenu, 0, 800);
+        return new SliderPage(driver, wait);
+    }
+
+    //* Tool Tips
+    @FindBy(xpath = "//span[.='Tool Tips']")
+    WebElement toolTips;
+
+    public ToolTipsPage selectToolTipsMenu() {
+        clickWithJS(toolTips, 0, 800);
+        return new ToolTipsPage(driver, wait);
+    }
 }

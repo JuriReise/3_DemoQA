@@ -1,0 +1,8 @@
+08:41:39.456 [main] INFO  demoqa.core.TestBase -- Test is started: [alertWithSelectedTextPositiveTest]
+08:41:40.661 [main] INFO  i.g.b.wdm.online.Downloader -- Downloading https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.126/win64/chromedriver-win64.zip
+08:41:41.581 [main] INFO  i.g.b.wdm.online.Downloader -- Extracting driver from compressed file chromedriver-win64.zip
+08:42:30.537 [main] INFO  demoqa.core.TestBase -- Test is started: [newTabPositiveTest]
+08:43:14.997 [main] INFO  demoqa.core.TestBase -- Test is started: [iframePositiveTest]
+08:43:59.467 [main] INFO  demoqa.core.TestBase -- Test is started: [loginPositiveTest]
+08:44:44.212 [main] INFO  demoqa.core.TestBase -- Test is started: [SearchBooksPositiveTest]
+08:45:28.643 [main] INFO  demoqa.core.TestBase -- Test is started: [multiSelectPositiveTest]
