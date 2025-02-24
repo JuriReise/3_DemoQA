@@ -39,7 +39,7 @@ public class SliderPage extends BasePage {
         int currentValue = Integer.parseInt(Objects.requireNonNull(sliderContainer.getDomProperty("value")));
 
         // Разница между текущим значением и заданным
-        int difference = targetValue - currentValue;
+        int difference =targetValue - currentValue;
 
         try {
             // Используем класс Robot для имитации событий клавиатуры

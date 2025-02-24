@@ -28,7 +28,15 @@ public class BasePage {
     }
 
     public void click(WebElement element) {
+        scrollToElement(element);
         element.click();
+    }
+
+    private void scrollToElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        waitForPageScrollToFinish();
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void type(WebElement element, String text) {
@@ -95,5 +103,17 @@ public class BasePage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void waitForPageScrollToFinish() {
+        wait.until(driver -> {
+            double beforeScroll, afterScroll;
+            do {
+                beforeScroll = ((Number) js.executeScript("return window.scrollY;")).doubleValue();
+                pause(50); // Ждём короткий промежуток времени
+                afterScroll = ((Number) js.executeScript("return window.scrollY;")).doubleValue();
+            } while (beforeScroll != afterScroll); // Если скролл ещё идёт, повторяем
+            return true; // Выходим из ожидания, когда прокрутка остановилась
+        });
     }
 }
