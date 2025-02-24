@@ -198,5 +198,102 @@ public class PracticeFormPage extends BasePage {
 
         return this;
     }
+
+    public PracticeFormPage openUploadedPictureInNewTab(String imgPath) {
+        // Преобразуем путь к файлу в URL для браузера
+        String filePath = "file:///" + imgPath.replace("\\", "/");
+
+        // Открываем URL в новой вкладке
+        ((JavascriptExecutor) driver).executeScript("window.open('" + filePath + "', '_blank');");
+
+        System.out.printf("🎨 Image displayed in new browser tab: [%s]%n", filePath);
+
+        return this;
+    }
+
+    // Ввод текущего адреса
+    @FindBy(id = "currentAddress")
+    WebElement currentAddress;
+
+    public PracticeFormPage enterCurrentAddress(String address) {
+        // Проверка на null и пустоту
+        if (address == null || address.isEmpty()) {
+            throw new IllegalArgumentException("⛔ Address can't be null or empty.");
+        }
+
+        currentAddress.clear();
+        currentAddress.sendKeys(address);
+        System.out.printf("✅ Current Address: [%s]%n", address);
+        return this;
+    }
+
+    // Выбор штата
+    @FindBy(id = "react-select-3-input")
+    WebElement stateInput;
+
+    public PracticeFormPage enterState(String state) {
+        // Проверка на null и пустоту
+        if (state == null || state.isEmpty()) {
+            throw new IllegalArgumentException("⛔ State can't be null or empty.");
+        }
+
+        stateInput.sendKeys(state);
+        stateInput.sendKeys(Keys.ENTER);
+        System.out.printf("✅ State selected: [%s]%n", state);
+        return this;
+    }
+
+    // Выбор города
+    @FindBy(id = "react-select-4-input")
+    WebElement cityInput;
+
+    public PracticeFormPage enterCity(String city) {
+        // Проверка на null и пустоту
+        if (city == null || city.isEmpty()) {
+            throw new IllegalArgumentException("⛔ City can't be null or empty.");
+        }
+
+        cityInput.sendKeys(city);
+        cityInput.sendKeys(Keys.ENTER);
+        System.out.printf("✅ City selected: [%s]%n", city);
+        return this;
+    }
+
+    // Нажатие на кнопку Submit
+    @FindBy(id = "submit")
+    WebElement submitButton;
+
+    public PracticeFormPage submitForm() {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
+        System.out.println("🚀 Form submitted");
+        return this;
+    }
+
+    // Проверка сообщения об успешной регистрации
+    public PracticeFormPage verifySuccessRegistration(String message) {
+        WebElement successMessage = driver.findElement(By.xpath("//div[contains(@class,'modal-title') and text()='" + message + "']"));
+        if (successMessage.isDisplayed()) {
+            System.out.printf("🎉 Success message displayed: [%s]%n", message);
+        } else {
+            throw new AssertionError("⛔ Success message not displayed");
+        }
+        return this;
+    }
+    // Нажатие на кнопку Close в модальном окне
+    public PracticeFormPage closeSuccessModal() {
+        WebElement closeButton = driver.findElement(By.id("closeLargeModal"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", closeButton);
+        System.out.println("✅ Success modal closed");
+
+        // Проверка, что модальное окно закрылось
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("closeLargeModal")));
+
+        // Выводим Alert с сообщением "Проект закончен!"
+        ((JavascriptExecutor) driver).executeScript("alert('🎉 Проект закончен!');");
+        System.out.println("🎉 Проект закончен!");
+        return this;
+    }
+
+
 }
 
