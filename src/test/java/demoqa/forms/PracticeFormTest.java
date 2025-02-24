@@ -20,10 +20,10 @@ public class PracticeFormTest extends TestBase {
                 .enterPersonalData("Beth", "Gibbons", "portishead@gmail.com", "1234567890")
                 .selectGender("Female")
                 //.chooseDateAsString("04 May 1965")
-                .chooseDate("04", "May", "1965")
-                .enterSubjects(new String[]{null, "English"})
+                .chooseDate("04", "May", "1965") // Выбираем дату
+                .enterSubjects(new String[]{"English"})
                 .chooseHobbies(new String[]{"Sports", "Music"})
-                .uploadPicture("C:\\Users\\PORTISHEAD\\Downloads\\unnamed2.png")
+                .uploadPicture("C:\\JAVA\\IdeaProjects\\AIT-TR-Java-Course-QA-2024\\QA_Project\\3_DemoQA\\img\\ckydysh.jpg") // Проверяем загрузку файла
 //                .enterCurrentAddress("Portishead, Bristol, UK")
 //                .enterState("NCR")
 //                .enterCity("Delhi")

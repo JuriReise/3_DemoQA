@@ -3,7 +3,15 @@ package demoqa.pages;
 import demoqa.core.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.File;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 public class PracticeFormPage extends BasePage {
     public PracticeFormPage(WebDriver driver, WebDriverWait wait) {
@@ -89,8 +97,106 @@ public class PracticeFormPage extends BasePage {
     WebElement uploadPicture;
 
     public PracticeFormPage uploadPicture(String imgPath) {
-        uploadPicture.sendKeys(imgPath);
-        System.out.printf("✅ Image: [%s]%n", imgPath);
+        // Проверка на null
+        if (imgPath == null) {
+            throw new IllegalArgumentException("⛔ Image path can't be null.");
+        }
+
+        // Проверка на пустую строку
+        if (imgPath.isEmpty()) {
+            throw new IllegalArgumentException("⛔ Image path can't be empty.");
+        }
+
+        // Проверка, существует ли файл
+        File file = new File(imgPath);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("⛔ File not found at path: " + imgPath);
+        }
+
+        try {
+            uploadPicture.sendKeys(imgPath);
+
+            // Проверка имени загруженного файла
+            String uploadedFileName = uploadPicture.getAttribute("value");
+            uploadedFileName = uploadedFileName.substring(uploadedFileName.lastIndexOf("\\") + 1);
+
+            if (!uploadedFileName.equals(imgPath.substring(imgPath.lastIndexOf("\\") + 1))) {
+                throw new IllegalArgumentException("⛔ Uploaded file name does not match: Expected ["
+                        + imgPath.substring(imgPath.lastIndexOf("\\") + 1)
+                        + "], but found [" + uploadedFileName + "]");
+            }
+            System.out.printf("✅ Image uploaded successfully: [%s]%n", uploadedFileName);
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("⛔ Upload element not found: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Error uploading image: " + e);
+        }
+
+        return this;
+    }
+
+
+    @FindBy(className = "react-datepicker__month-select")
+    WebElement monthSelect;
+    @FindBy(className = "react-datepicker__year-select")
+    WebElement yearSelect;
+
+    public PracticeFormPage chooseDate(String day, String month, String year) {
+        // Проверка дня
+        if (day == null || day.isEmpty() || !day.matches("\\d{1,2}")) {
+            throw new IllegalArgumentException("⛔ Invalid day: " + day);
+        }
+        int dayInt = Integer.parseInt(day);
+        if (dayInt < 1 || dayInt > 31) {
+            throw new IllegalArgumentException("⛔ Day out of range: " + day);
+        }
+
+        // Проверка месяца
+        List<String> validMonths = Arrays.asList("January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December");
+        if (month == null || month.isEmpty() || !validMonths.contains(month)) {
+            throw new IllegalArgumentException("⛔ Invalid month: " + month);
+        }
+
+        // Проверка года
+        if (year == null || !year.matches("\\d{4}")) {
+            throw new IllegalArgumentException("⛔ Invalid year: " + year);
+        }
+        int yearInt = Integer.parseInt(year);
+        int currentYear = LocalDate.now().getYear();
+        if (yearInt < 1900 || yearInt > currentYear) {
+            throw new IllegalArgumentException("⛔ Year out of range: " + year);
+        }
+
+        try {
+            click(dateOfBirthInput);
+
+            // Выбираем месяц
+            WebElement monthDropdown = driver.findElement(By.className("react-datepicker__month-select"));
+            monthDropdown.click();
+            WebElement monthOption = driver.findElement(By.xpath("//select[@class='react-datepicker__month-select']/option[text()='" + month + "']"));
+            monthOption.click();
+
+            // Выбираем год
+            WebElement yearDropdown = driver.findElement(By.className("react-datepicker__year-select"));
+            yearDropdown.click();
+            WebElement yearOption = driver.findElement(By.xpath("//select[@class='react-datepicker__year-select']/option[text()='" + year + "']"));
+            yearOption.click();
+
+            // Локатор для дня
+            String dayLocator = String.format("//div[contains(@class,'react-datepicker__day--0%s') and not(contains(@class, 'outside-month'))]", day);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dayLocator)));
+            dayElement.click();
+
+            System.out.printf("✅ Date selected: [%s %s %s]%n", day, month, year);
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("⛔ Date element not found: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Error selecting date: " + e);
+        }
+
         return this;
     }
 }
+
