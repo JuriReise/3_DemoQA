@@ -32,7 +32,7 @@ public class PracticeFormTest extends TestBase {
                 .enterCity("Delhi")
                 .submitForm()
                 .verifySuccessRegistration("Thanks for submitting the form")
-                .closeSuccessModal(); // Закрываем модальное окно и показываем Alert
+                .closeSuccessModal(); // Эффектное завершение
     }
 
 }
