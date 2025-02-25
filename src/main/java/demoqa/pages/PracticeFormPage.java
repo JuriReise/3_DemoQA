@@ -174,7 +174,7 @@ public class PracticeFormPage extends BasePage {
     WebElement yearSelect;
 
     public PracticeFormPage chooseDate(String day, String month, String year) {
-        // Проверка дня
+        // Проверка дней
         if (day == null || day.isEmpty() || !day.matches("\\d{1,2}")) {
             throw new IllegalArgumentException("⛔ Invalid day: " + day);
         }
@@ -183,7 +183,7 @@ public class PracticeFormPage extends BasePage {
             throw new IllegalArgumentException("⛔ Day out of range: " + day);
         }
 
-        // Проверка месяца
+        // Проверка месяцев
         List<String> validMonths = Arrays.asList("January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December");
         if (month == null || month.isEmpty() || !validMonths.contains(month)) {
@@ -215,7 +215,7 @@ public class PracticeFormPage extends BasePage {
             WebElement yearOption = driver.findElement(By.xpath("//select[@class='react-datepicker__year-select']/option[text()='" + year + "']"));
             yearOption.click();
 
-            // Локатор для дня
+            // Локатор дня
             String dayLocator = String.format("//div[contains(@class,'react-datepicker__day--0%s') and not(contains(@class, 'outside-month'))]", day);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dayLocator)));
@@ -232,10 +232,9 @@ public class PracticeFormPage extends BasePage {
     }
 
     public PracticeFormPage openUploadedPictureInNewTab(String imgPath) {
-        // Преобразуем путь к файлу в URL для браузера
+
         String filePath = "file:///" + imgPath.replace("\\", "/");
 
-        // Открываем URL в новой вкладке
         ((JavascriptExecutor) driver).executeScript("window.open('" + filePath + "', '_blank');");
 
         System.out.printf("🎨 Image displayed in new browser tab: [%s]%n", filePath);
@@ -243,7 +242,7 @@ public class PracticeFormPage extends BasePage {
         return this;
     }
 
-    // Ввод текущего адреса
+    // Ввод адреса
     @FindBy(id = "currentAddress")
     WebElement currentAddress;
 
@@ -291,7 +290,7 @@ public class PracticeFormPage extends BasePage {
         return this;
     }
 
-    // Нажатие на кнопку Submit
+    // Кнопку Submit
     @FindBy(id = "submit")
     WebElement submitButton;
 
@@ -301,7 +300,7 @@ public class PracticeFormPage extends BasePage {
         return this;
     }
 
-    // Проверка сообщения об успешной регистрации
+    // Проверка успешной регистрации
     public PracticeFormPage verifySuccessRegistration(String message) {
         WebElement successMessage = driver.findElement(By.xpath("//div[contains(@class,'modal-title') and text()='" + message + "']"));
         if (successMessage.isDisplayed()) {
@@ -311,7 +310,7 @@ public class PracticeFormPage extends BasePage {
         }
         return this;
     }
-    // Нажатие на кнопку Close в модальном окне
+    // закрытие формы в модальном окне
     public PracticeFormPage closeSuccessModal() {
         WebElement closeButton = driver.findElement(By.id("closeLargeModal"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", closeButton);
