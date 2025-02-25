@@ -299,6 +299,13 @@ public class PracticeFormPage extends BasePage {
         System.out.println("🚀 Form submitted");
         return this;
     }
+    //@FindBy(id = "submit")
+    //WebElement submitButton;
+    //
+    //public PracticeFormPage submitForm() {
+    //    click(submitButton);
+    //    return this;
+    //}
 
     // Проверка успешной регистрации
     public PracticeFormPage verifySuccessRegistration(String message) {
